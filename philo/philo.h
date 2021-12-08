@@ -26,7 +26,9 @@ typedef struct s_philo
 	long			eat_times;
 	pthread_t		thread;
 	pthread_mutex_t	fork;
+	pthread_mutex_t	priority;
 	void			*data;
+	int 			status;
 }					t_philo;
 
 typedef struct s_common
@@ -58,5 +60,6 @@ void			ft_sleep(t_philo *philo);
 void			ft_think(t_philo *philo);
 void			ft_take_forks(t_philo *philo);
 void			philo_is_dying(t_common *data);
+void			*ft_observer(void *arg);
 
 #endif

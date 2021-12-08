@@ -48,37 +48,10 @@ int	run_philos(t_common *data)
 		if (pthread_create(&data->philos[i].thread, NULL,
 				run_philo, (void *)&data->philos[i]))
 			return (1);
-		i += 2;
-		if (i >= data->number_of_philosophers && !(i % 2))
-			i = 1;
+		i++;
 		usleep(5);
 	}
 	return (0);
-}
-
-void	*ft_observer(void *arg)
-{
-	int			i;
-	t_common	*data;
-
-	data = (t_common *)arg;
-	while (!usleep(2000))
-	{
-		i = 0;
-		while (i < data->number_of_philosophers)
-		{
-			if (!data->philos[i].eat_times)
-				return (NULL);
-			if (get_time(data->start_time) - data->philos[i].last_eat
-				> data->time_to_die)
-			{
-				print_msg(i + 1, "died\n", data);
-				return (NULL);
-			}
-			i++;
-		}
-	}
-	return (NULL);
 }
 
 void	clear_treads(t_common *data)

@@ -15,41 +15,35 @@
 void	ft_take_forks(t_philo *philo)
 {
 	t_common	*data;
-	int			left;
 	int			right;
 
-	left = philo->id;
 	right = ft_get_right_fork(philo);
 	data = (t_common *)philo->data;
-	if (philo->id % 2)
-	{
-		pthread_mutex_lock(&data->philos[left].fork);
-		print_msg(philo->id + 1, "has taken a left fork\n", data);
-		pthread_mutex_lock(&data->philos[right].fork);
-		print_msg(philo->id + 1, "has taken a right fork\n", data);
-	}
-	else
-	{
-		pthread_mutex_lock(&data->philos[right].fork);
-		print_msg(philo->id + 1, "has taken a right fork\n", data);
-		pthread_mutex_lock(&data->philos[left].fork);
-		print_msg(philo->id + 1, "has taken a left fork\n", data);
-	}
+	pthread_mutex_lock(&data->philos[philo->id].priority);
+	pthread_mutex_lock(&philo->fork);
+	print_msg(philo->id + 1, "has taken a left fork\n", data);
+	pthread_mutex_lock(&data->philos[right].fork);
+	print_msg(philo->id + 1, "has taken a right fork\n", data);
+	pthread_mutex_unlock(&data->philos[right].priority);
 }
 
 int	ft_eat(t_philo *philo)
 {
-	t_common	*data;
+	t_common		*data;
+	unsigned long	time;
 
 	if (!philo)
 		return (0);
 	data = (t_common *)philo->data;
 	print_msg(philo->id + 1, "is eating\n", data);
-	philo->last_eat = get_time(data->start_time);
-	while (get_time(data->start_time) < philo->last_eat + data->time_to_eat)
+	philo->status = 1;
+	time = get_time(data->start_time);
+	while (get_time(data->start_time) - time < data->time_to_eat)
 		usleep(300);
+	philo->last_eat = get_time(data->start_time);
 	if (data->number_of_times_must_eat != -1)
 		philo->eat_times--;
+	philo->status = 0;
 	return (1);
 }
 
@@ -68,12 +62,13 @@ void	ft_put_forks(t_philo *philo)
 
 void	ft_sleep(t_philo *philo)
 {
-	t_common	*data;
+	t_common		*data;
+	unsigned int	time;
 
 	data = (t_common *)philo->data;
 	print_msg(philo->id + 1, "is sleeping\n", data);
-	while (get_time(data->start_time)
-		< data->time_to_sleep + philo->last_eat + data->time_to_eat)
+	time = get_time(data->start_time);
+	while (get_time(data->start_time) - time < data->time_to_sleep)
 		usleep(300);
 }
 

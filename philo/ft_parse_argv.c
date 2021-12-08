@@ -18,7 +18,9 @@ void	create_philo(t_philo *philo, int i, t_common *data)
 	philo->eat_times = data->number_of_times_must_eat;
 	philo->data = (void *)data;
 	philo->last_eat = 0;
+	philo->status = 0;
 	pthread_mutex_init(&philo->fork, NULL);
+	pthread_mutex_init(&philo->priority, NULL);
 }
 
 int	ft_print_error_msg(char *msg)
