@@ -22,7 +22,7 @@ unsigned long	get_time(unsigned long start_time)
 
 void	print_msg(int id, char *msg, t_common *data)
 {
-	if (data && data->print.__data.__spins == 0)
+	if (data)
 	{
 		pthread_mutex_lock(&data->print);
 		if (data->die == 0)
