@@ -22,9 +22,13 @@ unsigned long	get_time(unsigned long start_time)
 
 void	print_msg(int id, char *msg, t_common *data)
 {
-	pthread_mutex_lock(&data->print);
-	printf("%lu	%d	%s", get_time(data->start_time), id, msg);
-	pthread_mutex_unlock(&data->print);
+	if (data && data->print.__data.__spins == 0)
+	{
+		pthread_mutex_lock(&data->print);
+		if (data->die == 0)
+			printf("%lu	%d	%s", get_time(data->start_time), id, msg);
+		pthread_mutex_unlock(&data->print);
+	}
 }
 
 int	ft_get_right_fork(t_philo *philo)

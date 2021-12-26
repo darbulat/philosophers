@@ -42,6 +42,7 @@ typedef struct s_common
 	time_t				start_time;
 	t_philo				*philos;
 	pthread_t			tread;
+	int					die;
 }				t_common;
 
 int				ft_arrlen(char **arr);

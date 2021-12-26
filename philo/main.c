@@ -63,9 +63,11 @@ void	clear_treads(t_common *data)
 		pthread_detach(data->philos[i].thread);
 	i = -1;
 	while (++i < data->number_of_philosophers)
+	{
+		pthread_mutex_destroy(&data->philos[i].priority);
 		pthread_mutex_destroy(&data->philos[i].fork);
+	}
 	pthread_mutex_destroy(&data->print);
-	pthread_detach(data->tread);
 	free(data->philos);
 }
 

@@ -21,6 +21,7 @@ int	ft_observe_philo(t_philo *philo, int *eat_flag)
 		> data->time_to_die && !philo->status)
 	{
 		print_msg(philo->id + 1, "died\n", data);
+		data->die = 1;
 		return (1);
 	}
 	if (philo->eat_times > 0)
@@ -39,7 +40,7 @@ void	*ft_observer(void *arg)
 	t_common	*data;
 
 	data = (t_common *)arg;
-	while (!usleep(2000))
+	while (1)
 	{
 		i = 0;
 		eat_flag = data->number_of_times_must_eat;
@@ -54,5 +55,4 @@ void	*ft_observer(void *arg)
 		if (eat_flag > 0)
 			return (NULL);
 	}
-	return (NULL);
 }

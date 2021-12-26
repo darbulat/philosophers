@@ -38,9 +38,9 @@ int	ft_eat(t_philo *philo)
 	print_msg(philo->id + 1, "is eating\n", data);
 	philo->status = 1;
 	time = get_time(data->start_time);
+	philo->last_eat = time;
 	while (get_time(data->start_time) - time < data->time_to_eat)
 		usleep(300);
-	philo->last_eat = get_time(data->start_time);
 	if (data->number_of_times_must_eat != -1)
 		philo->eat_times--;
 	philo->status = 0;
