@@ -22,12 +22,18 @@ unsigned long	get_time(unsigned long start_time)
 
 void	print_msg(int id, char *msg, t_common *data)
 {
+	unsigned long	time;
+
 	if (data)
 	{
-		pthread_mutex_lock(&data->print);
-		if (data->die == 0)
-			printf("%lu	%d	%s", get_time(data->start_time), id, msg);
-		pthread_mutex_unlock(&data->print);
+		time = get_time(data->start_time);
+		if (time < 1000000000000)
+		{
+			pthread_mutex_lock(&data->print);
+			if (data->die == 0)
+				printf("%lu	%d	%s", time, id, msg);
+			pthread_mutex_unlock(&data->print);
+		}
 	}
 }
 

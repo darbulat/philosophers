@@ -53,7 +53,6 @@ int	ft_init_philos(char **argv, t_common *data)
 	data->time_to_eat = ft_atoi_positive(argv[3]);
 	data->time_to_sleep = ft_atoi_positive(argv[4]);
 	data->die = 0;
-	printf("%s %s %s %s\n", argv[1], argv[2], argv[3], argv[4]);
 	if (argv[5])
 		data->number_of_times_must_eat = ft_atoi_positive(argv[5]);
 	else
