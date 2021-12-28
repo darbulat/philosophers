@@ -53,6 +53,8 @@ int	ft_eat(t_philo *philo)
 		usleep(300);
 	if (data->number_of_times_must_eat != -1)
 		philo->eat_times--;
+	if (data->number_of_times_must_eat != -1 && philo->eat_times <= 0)
+		data->number_of_full_philos++;
 	philo->status = 0;
 	return (1);
 }

@@ -49,6 +49,7 @@ int	ft_init_philos(char **argv, t_common *data)
 	int	i;
 
 	data->number_of_philosophers = ft_atoi_positive(argv[1]);
+	data->number_of_full_philos = 0;
 	data->time_to_die = ft_atoi_positive(argv[2]);
 	data->time_to_eat = ft_atoi_positive(argv[3]);
 	data->time_to_sleep = ft_atoi_positive(argv[4]);

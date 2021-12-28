@@ -34,6 +34,7 @@ typedef struct s_philo
 typedef struct s_common
 {
 	int					number_of_philosophers;
+	int					number_of_full_philos;
 	long unsigned int	time_to_die;
 	long unsigned int	time_to_eat;
 	long unsigned int	time_to_sleep;
