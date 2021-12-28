@@ -19,11 +19,21 @@ void	ft_take_forks(t_philo *philo)
 
 	right = ft_get_right_fork(philo);
 	data = (t_common *)philo->data;
-	pthread_mutex_lock(&data->philos[philo->id].priority);
-	pthread_mutex_lock(&philo->fork);
-	print_msg(philo->id + 1, "has taken a left fork\n", data);
-	pthread_mutex_lock(&data->philos[right].fork);
-	print_msg(philo->id + 1, "has taken a right fork\n", data);
+	pthread_mutex_lock(&philo->priority);
+	if (philo->id % 2 == 1)
+	{
+		pthread_mutex_lock(&philo->fork);
+		print_msg(philo->id + 1, "has taken a left fork\n", data);
+		pthread_mutex_lock(&data->philos[right].fork);
+		print_msg(philo->id + 1, "has taken a right fork\n", data);
+	}
+	else
+	{
+		pthread_mutex_lock(&data->philos[right].fork);
+		print_msg(philo->id + 1, "has taken a right fork\n", data);
+		pthread_mutex_lock(&philo->fork);
+		print_msg(philo->id + 1, "has taken a left fork\n", data);
+	}
 	pthread_mutex_unlock(&data->philos[right].priority);
 }
 
@@ -50,13 +60,11 @@ int	ft_eat(t_philo *philo)
 void	ft_put_forks(t_philo *philo)
 {
 	t_common	*data;
-	int			left;
 	int			right;
 
 	data = (t_common *)philo->data;
-	left = philo->id;
 	right = ft_get_right_fork(philo);
-	pthread_mutex_unlock(&data->philos[left].fork);
+	pthread_mutex_unlock(&philo->fork);
 	pthread_mutex_unlock(&data->philos[right].fork);
 }
 
